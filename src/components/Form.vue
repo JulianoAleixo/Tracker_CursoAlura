@@ -1,25 +1,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import Timer from "./Timer.vue";
+import TimerControl from "./TimerControl.vue";
 export default defineComponent({
     name: "Form",
-    components: { Timer },
-    data() {
-        return {
-            timeInSeconds: 0,
-            interval: 0,
-        };
-    },
-    methods: {
-        handleStart() {
-            this.interval = setInterval(() => {
-                this.timeInSeconds += 1;
-            }, 1000);
-        },
-        handleFinish() {
-            clearInterval(this.interval);
-        },
-    },
+    components: { TimerControl }
 });
 </script>
 
@@ -38,23 +22,7 @@ export default defineComponent({
                 />
             </div>
             <div class="column">
-                <div
-                    class="is-flex is-align-items-center is-justify-content-space-between"
-                >
-                    <Timer :timeInSeconds="timeInSeconds"/>
-                    <button class="button" @click="handleStart()">
-                        <span class="icon">
-                            <i class="fas fa-play"></i>
-                        </span>
-                        <span>Play</span>
-                    </button>
-                    <butotn class="button" @click="handleFinish()">
-                        <span class="icon">
-                            <i class="fas fa-stop"></i>
-                        </span>
-                        <span>Stop</span>
-                    </butotn>
-                </div>
+                <TimerControl />
             </div>
         </div>
     </div>
