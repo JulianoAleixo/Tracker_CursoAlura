@@ -1,11 +1,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import SideBar from "./components/SideBar.vue";
-import FormComponent from "./components/FormComponent.vue";
+import Form from "./components/Form.vue";
 
 export default defineComponent({
     name: "App",
-    components: { SideBar, FormComponent }
+    components: { SideBar, Form }
 });
 </script>
 
@@ -15,7 +15,7 @@ export default defineComponent({
             <SideBar />
         </div>
         <div class="column is-three-quarter">
-            <FormComponent />
+            <Form />
         </div>
     </main>
 </template>

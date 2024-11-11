@@ -1,19 +1,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import Timer from "./Timer.vue";
 export default defineComponent({
-    name: "FormComponent",
+    name: "Form",
+    components: { Timer },
     data() {
         return {
             timeInSeconds: 0,
-            interval: 0
+            interval: 0,
         };
-    },
-    computed: {
-        timePassed(): string {
-            return new Date(this.timeInSeconds * 1000)
-                .toISOString()
-                .substr(11, 8);
-        },
     },
     methods: {
         handleStart() {
@@ -46,10 +41,7 @@ export default defineComponent({
                 <div
                     class="is-flex is-align-items-center is-justify-content-space-between"
                 >
-                    <section>
-                        <strong>{{ timePassed }}</strong>
-                    </section>
-
+                    <Timer :timeInSeconds="timeInSeconds"/>
                     <button class="button" @click="handleStart()">
                         <span class="icon">
                             <i class="fas fa-play"></i>
@@ -68,5 +60,4 @@ export default defineComponent({
     </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
