@@ -1,14 +1,17 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Timer from "./Timer.vue";
+import TimerButton from "./TimerButton.vue";
+
 export default defineComponent({
     name: "TimerControl",
-    components: { Timer },
+    emits: ["onTimerFinish"],
+    components: { Timer, TimerButton },
     data() {
         return {
             timeInSeconds: 0,
             interval: 0,
-            isTimerRunning: false
+            isTimerRunning: false,
         };
     },
     methods: {
@@ -21,6 +24,8 @@ export default defineComponent({
         handleFinish() {
             this.isTimerRunning = false;
             clearInterval(this.interval);
+            this.$emit("onTimerFinish", this.timeInSeconds);
+            this.timeInSeconds = 0;
         },
     },
 });
@@ -29,17 +34,17 @@ export default defineComponent({
 <template>
     <div class="is-flex is-align-items-center is-justify-content-space-between">
         <Timer :timeInSeconds="timeInSeconds" />
-        <button class="button" @click="handleStart()" :disabled="isTimerRunning">
-            <span class="icon">
-                <i class="fas fa-play"></i>
-            </span>
-            <span>Play</span>
-        </button>
-        <button class="button" @click="handleFinish()" :disabled="!isTimerRunning">
-            <span class="icon">
-                <i class="fas fa-stop"></i>
-            </span>
-            <span>Stop</span>
-        </button>
+        <TimerButton
+            :isDisabled="isTimerRunning"
+            text="Play"
+            icon="play"
+            @click="handleStart"
+        />
+        <TimerButton
+            :isDisabled="!isTimerRunning"
+            text="Stop"
+            icon="stop"
+            @click="handleFinish"
+        />
     </div>
 </template>

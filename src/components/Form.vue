@@ -1,9 +1,20 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import TimerControl from "./TimerControl.vue";
+
 export default defineComponent({
     name: "Form",
-    components: { TimerControl }
+    components: { TimerControl },
+    methods: {
+        finishTask(timePassed: number): void {
+            console.log(timePassed, this.description);
+        }
+    },
+    data() {
+        return {
+            'description': ''
+        }
+    }
 });
 </script>
 
@@ -19,10 +30,11 @@ export default defineComponent({
                     type="text"
                     class="input"
                     placeholder="Qual tarefa você deseja iniciar?"
+                    v-model="description"
                 />
             </div>
             <div class="column">
-                <TimerControl />
+                <TimerControl @on-timer-finish="finishTask" />
             </div>
         </div>
     </div>
