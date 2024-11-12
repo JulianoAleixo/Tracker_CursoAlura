@@ -32,7 +32,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <div class="is-flex is-align-items-center is-justify-content-space-between">
+    <div class="is-flex is-align-items-center is-justify-content-space-around">
         <Timer :timeInSeconds="timeInSeconds" />
         <TimerButton
             :isDisabled="isTimerRunning"

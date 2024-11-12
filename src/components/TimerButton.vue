@@ -8,12 +8,17 @@ export default defineComponent({
         text: { type: String, required: true },
         icon: { type: String, required: true },
     },
-    emits: ['handleClick']
+    emits: ["handleClick"],
 });
 </script>
 
 <template>
-    <button class="button" @click="$emit('handleClick')" :disabled="isDisabled">
+    <button
+        class="button"
+        :class="{ 'disabled': isDisabled }"
+        @click="$emit('handleClick')"
+        :disabled="isDisabled"
+    >
         <span class="icon">
             <i :class="`fas fa-${icon}`"></i>
         </span>
@@ -21,4 +26,19 @@ export default defineComponent({
     </button>
 </template>
 
-<style scoped></style>
+<style scoped>
+button {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    border-width: 0.5px !important;
+}
+
+button:hover {
+    background: var(--bg-hover);
+}
+
+button.disabled {
+    background-color: var(--bg-disabled);
+}
+</style>

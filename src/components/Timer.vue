@@ -18,8 +18,12 @@ export default defineComponent({
 
 <template>
     <section>
-        <strong>{{ timePassed }}</strong>
+        <strong class="timer-text">{{ timePassed }}</strong>
     </section>
 </template>
 
-<style scoped></style>
+<style>
+.timer-text {
+    color: var(--text-primary);
+}
+</style>
