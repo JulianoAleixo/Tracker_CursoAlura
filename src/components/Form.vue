@@ -1,6 +1,8 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import TimerControl from "./TimerControl.vue";
+import { useStore } from "vuex";
+import { key } from "@/store";
 
 export default defineComponent({
     name: "Form",
@@ -11,6 +13,7 @@ export default defineComponent({
             this.$emit("onSaveTask", {
                 durationInSeconds: timePassed,
                 description: this.description,
+                project: this.projects.find(proj => proj.id == this.idProject)  
             });
             this.description = "";
         },
@@ -18,8 +21,15 @@ export default defineComponent({
     data() {
         return {
             description: "",
+            idProject: "",
         };
     },
+    setup() {
+        const store = useStore(key);
+        return {
+            projects: computed(() => store.state.projects)
+        }
+    }
 });
 </script>
 
@@ -27,7 +37,7 @@ export default defineComponent({
     <div class="box form">
         <div class="columns">
             <div
-                class="column is-8"
+                class="column is-5"
                 role="form"
                 aria-label="Formulário para criação de uma nova tarefa."
             >
@@ -38,6 +48,16 @@ export default defineComponent({
                     v-model="description"
                 />
             </div>
+
+            <div class="column is-3">
+                <div class="select">
+                    <select v-model="idProject" class="my-select">
+                        <option value="">Selecione o Projeto</option>
+                        <option :value="project.id" v-for="project in projects" :key="project.id">{{ project.name }}</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="column">
                 <TimerControl @on-timer-finish="finishTask" />
             </div>
@@ -61,5 +81,11 @@ input {
 
 input::placeholder {
     color: var(--text-primary) !important;
+}
+
+.my-select {
+    background: var(--bg-primary) !important;
+    color: var(--text-button) !important;
+    border-color: var(--text-primary) !important;
 }
 </style>
