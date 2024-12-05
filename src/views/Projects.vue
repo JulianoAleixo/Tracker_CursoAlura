@@ -1,61 +1,15 @@
 <script lang="ts">
-import { useStore } from '@/store';
-import { computed, defineComponent } from 'vue';
-
+import { defineComponent } from 'vue';
 export default defineComponent({
-    name: 'Projects',
-    data() {
-        return {
-            projectName: ""
-        };
-    },
-    methods: {
-        save() {
-            this.store.commit("ADD_PROJECT", this.projectName);
-            this.projectName = '';
-        }
-    },
-    setup() {
-        const store = useStore()
-        return {
-            store,
-            projects: computed(() => store.state.projects)
-        }
-    }
+    name: "Projects"
 });
 </script>
 
 <template>
-    <section class="projects">
-        <h1>Projetos</h1>
-        <form @submit.prevent="save">
-            <div class="field">
-                <label for="projectName" class="label">
-                    Nome do Projeto
-                </label>
-                <input type="text" class="input" v-model="projectName" id="projectName">
-            </div>
-            <div class="field">
-                <button class="button my-button" type="submit">
-                    Salvar
-                </button>
-            </div>
-        </form>
-        <table class="table is-fullwidth mt-5">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="project in projects" :key="project.id">
-                    <td>{{ project.id }}</td>
-                    <td>{{ project.name }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+    <div class="projects">
+        <h1 class="title">Projetos</h1>
+        <router-view></router-view>
+    </div>
 </template>
 
 <style scoped>
@@ -64,15 +18,6 @@ export default defineComponent({
 }
 
 h1 {
-    color: var(--text-primary);
-}
-
-.my-button {
-    background-color: var(--bg-button);
-    color: var(--text-button);
-}
-
-.label {
     color: var(--text-primary);
 }
 </style>
