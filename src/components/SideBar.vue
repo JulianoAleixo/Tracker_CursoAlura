@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+
 export default defineComponent({
     name: "SideBar",
     emits: ['onChangeTheme'],
@@ -30,9 +31,27 @@ export default defineComponent({
         <h1>
             <img src="../assets/logo.jpg" alt="" class="sidebar-logo" />
         </h1>
-        <button class="button" @click="changeTheme">
-            {{ buttonText }}
-        </button>
+        <div>
+            <button class="button my-button" @click="changeTheme">
+                {{ buttonText }}
+            </button>
+        </div>
+        <nav class="pannel">
+            <ul>
+                <li>
+                    <router-link to="/" class="link">
+                        <i class="fas fa-tasks"></i>
+                        Tarefas
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/projects" class="link">
+                        <i class="fas fa-project-diagram"></i>
+                        Projetos
+                    </router-link>
+                </li>
+            </ul>
+        </nav>
     </header>
 </template>
 
@@ -55,6 +74,27 @@ header {
 
 button {
     margin: 1.5rem;
+}
+
+.my-button {
+    background-color: var(--bg-button);
+    color: var(--text-button);
+}
+
+.pannel li {
+    margin: 8px 0;
+}
+
+.link {
+    color: #fff;
+}
+
+.link:hover {
+    color: #FAF0CA;
+}
+
+.link.router-link-active {
+    color: #FAF0CA;
 }
 
 @media only screen and (max-width: 768px) {
