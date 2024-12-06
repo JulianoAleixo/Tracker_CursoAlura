@@ -1,8 +1,9 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import TimerControl from "./TimerControl.vue";
-import { useStore } from "vuex";
-import { key } from "@/store";
+import { NOTIFICATE } from "@/store/mutations-type";
+import { NotificationType } from "@/interfaces/INotification";
+import { useStore } from "@/store";
 
 export default defineComponent({
     name: "Form",
@@ -10,12 +11,25 @@ export default defineComponent({
     emits: ["onSaveTask"],
     methods: {
         finishTask(timePassed: number): void {
+            if (!this.idProject) {
+                this.store.commit(NOTIFICATE, {
+                    title: "[Erro] Sem Projeto",
+                    text: "Você está tentando criar uma tarefa sem um projeto associado. Tente novamente.",
+                    type: NotificationType.FAIL,
+                });
+                this.description = "";
+                return;
+            }
+
             this.$emit("onSaveTask", {
                 durationInSeconds: timePassed,
                 description: this.description,
-                project: this.projects.find(proj => proj.id == this.idProject)  
+                project: this.projects.find(
+                    (proj) => proj.id == this.idProject
+                ),
             });
             this.description = "";
+            this.idProject = "";
         },
     },
     data() {
@@ -25,11 +39,12 @@ export default defineComponent({
         };
     },
     setup() {
-        const store = useStore(key);
+        const store = useStore();
         return {
-            projects: computed(() => store.state.projects)
-        }
-    }
+            projects: computed(() => store.state.projects),
+            store
+        };
+    },
 });
 </script>
 
@@ -53,7 +68,13 @@ export default defineComponent({
                 <div class="select">
                     <select v-model="idProject" class="my-select">
                         <option value="">Selecione o Projeto</option>
-                        <option :value="project.id" v-for="project in projects" :key="project.id">{{ project.name }}</option>
+                        <option
+                            :value="project.id"
+                            v-for="project in projects"
+                            :key="project.id"
+                        >
+                            {{ project.name }}
+                        </option>
                     </select>
                 </div>
             </div>
